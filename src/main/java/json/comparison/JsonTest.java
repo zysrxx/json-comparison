@@ -43,11 +43,15 @@ public class JsonTest {
 	 * 序列化标记
 	 */
 	private static String SERIALIZE = "serialize";
-
+	/**
+	 * 各json序列化处理类
+	 */
 	private  JsonSerialize fastjsonSerialize = new FastjsonSerialize();
 	private  JsonSerialize jacksonSerialize = new JacksonSerialize();
 	private  JsonSerialize gsonSerialize = new GsonSerialize();
-	
+	/**
+	 * 各json反序列化处理类
+	 */
 	private  JsonDeserialize fastjsonDeserialize = new FastjsonDeserialize();
 	private  JsonDeserialize jacksonDeserialize = new JacksonDeserialize();
 	private  JsonDeserialize gsonDeserialize = new GsonDeserialize();
