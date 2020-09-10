@@ -16,7 +16,7 @@ import json.comparison.serialize.JacksonSerialize;
 
 
 /**  
-* @ClassName: JsonSerializeTest  
+* @ClassName: JsonTest  
 * @Description: json序列化测试类，测试json包括fastjson、jackson、gson，测试包括序列化大对象和单个对象，
 * 测试对象包括复杂对象（多层嵌套）、基础对象，以及基础json和复杂json，
 * @author zysrxx  
