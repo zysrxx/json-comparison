@@ -18,7 +18,7 @@ import json.comparison.DataBuilder;
 * @author zysrxx  
 * @date 2020年8月13日    
 */
-public class SampleEntity implements Serializable {
+public class SimpleEntity implements Serializable {
     private static final long serialVersionUID = -1520171788566678009L;
 
     private Boolean fieldBoolean;
@@ -33,7 +33,7 @@ public class SampleEntity implements Serializable {
     /**
      * 随机样本
      */
-    public SampleEntity() {
+    public SimpleEntity() {
         Random random = new Random();
 
         fieldBoolean = random.nextBoolean();
@@ -52,7 +52,7 @@ public class SampleEntity implements Serializable {
      * @param listSize List元素数量
      * @param mapKeyNum Map元素数量
      */
-    public SampleEntity(int listSize, int mapKeyNum) {
+    public SimpleEntity(int listSize, int mapKeyNum) {
         Random random = new Random();
 
         fieldBoolean = random.nextBoolean();

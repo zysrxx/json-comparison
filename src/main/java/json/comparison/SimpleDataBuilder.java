@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import json.comparison.entity.ComplexEntity;
-import json.comparison.entity.SampleEntity;
+import json.comparison.entity.SimpleEntity;
 
 
 
@@ -28,8 +28,8 @@ public class SimpleDataBuilder {
 	* @return SampleEntity    返回类型  
 	* @throws
 	 */
-	public static SampleEntity getBaseSampleEntity(){
-		return new SampleEntity();
+	public static SimpleEntity getBaseSampleEntity(){
+		return new SimpleEntity();
 	}
 	/**
 	 * getBaseJson 返回基础json样本数据  
@@ -37,7 +37,7 @@ public class SimpleDataBuilder {
 	 * @throws
 	 */
 	public static JSONObject getBaseJson(){
-		return JSON.parseObject(JSON.toJSONString(new SampleEntity()));
+		return JSON.parseObject(JSON.toJSONString(new SimpleEntity()));
 	}
 	/**
 	 * getBaseJson 返回基础json样本数据list  
@@ -54,14 +54,14 @@ public class SimpleDataBuilder {
 	* @return List<SampleEntity>    返回类型  
 	* @throws
 	 */
-	public static List<SampleEntity> getBaseSampleList(int size){
+	public static List<SimpleEntity> getBaseSampleList(int size){
 		if(size <= 0){
 			System.out.println("size <=0");
 			return null;
 		}
-		List<SampleEntity> list = new LinkedList<>();
+		List<SimpleEntity> list = new LinkedList<>();
 		for(int i=0;i<size;i++){
-			list.add(new SampleEntity());
+			list.add(new SimpleEntity());
 		}
 		return list;
 	}

@@ -8,7 +8,7 @@ import json.comparison.deserialize.FastjsonDeserialize;
 import json.comparison.deserialize.GsonDeserialize;
 import json.comparison.deserialize.JacksonDeserialize;
 import json.comparison.entity.ComplexEntity;
-import json.comparison.entity.SampleEntity;
+import json.comparison.entity.SimpleEntity;
 import json.comparison.serialize.FastjsonSerialize;
 import json.comparison.serialize.GsonSerialize;
 import json.comparison.serialize.JacksonSerialize;
@@ -155,7 +155,7 @@ public class JsonTest {
 						
 			if("sample".equals(ENTITY_TYPE)){					
 				entity = SimpleDataBuilder.getBaseSampleList(ENTITY_NUM);
-				clazz = SampleEntity.class;
+				clazz = SimpleEntity.class;
 			}else if("complex".equals(ENTITY_TYPE)){
 				entity = SimpleDataBuilder.getComplexList(ENTITY_NUM);
 				clazz = ComplexEntity.class;
@@ -183,7 +183,7 @@ public class JsonTest {
 			for(int i=0;i< ENTITY_NUM;i++){				
 				if("sample".equals(ENTITY_TYPE)){					
 					entity = SimpleDataBuilder.getBaseSampleEntity();
-					clazz = SampleEntity.class;
+					clazz = SimpleEntity.class;
 				}else if("complex".equals(ENTITY_TYPE)){
 					entity = SimpleDataBuilder.getComplexEntity();
 					clazz = ComplexEntity.class;
@@ -219,7 +219,7 @@ public class JsonTest {
 	* @throws
 	 */
 	public void serializePreHeat() throws Exception{
-		SampleEntity sample = SimpleDataBuilder.getBaseSampleEntity();
+		SimpleEntity sample = SimpleDataBuilder.getBaseSampleEntity();
 		long startTime = System.nanoTime();
 		fastjsonSerialize.serialize(sample);
 		System.out.println("serialize fastjson preheat,time:"+(System.nanoTime()-startTime));
@@ -238,16 +238,16 @@ public class JsonTest {
 	 * @throws Exception
 	 */
 	public void deserializePreHeat() throws Exception{
-		SampleEntity sample = SimpleDataBuilder.getBaseSampleEntity();
+		SimpleEntity sample = SimpleDataBuilder.getBaseSampleEntity();
 		String json = JSON.toJSONString(sample);
 		long startTime = System.nanoTime();
-		fastjsonDeserialize.deserialize(json, SampleEntity.class,"object");
+		fastjsonDeserialize.deserialize(json, SimpleEntity.class,"object");
 		System.out.println("deserialize fastjson preheat,time:"+(System.nanoTime()-startTime));
 		startTime = System.nanoTime();
-		jacksonDeserialize.deserialize(json, SampleEntity.class,"object");
+		jacksonDeserialize.deserialize(json, SimpleEntity.class,"object");
 		System.out.println("deserialize jackson preheat,time:"+(System.nanoTime()-startTime));
 		startTime = System.nanoTime();
-		gsonDeserialize.deserialize(json, SampleEntity.class,"object");
+		gsonDeserialize.deserialize(json, SimpleEntity.class,"object");
 		System.out.println("deserialize gson preheat,time:"+(System.nanoTime()-startTime));
 
 	}

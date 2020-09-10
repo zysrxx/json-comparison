@@ -30,7 +30,7 @@ public class ComplexEntity implements Serializable {
     private String fieldStr;
     private List<String> fieldList;
     private Map<String, Object> fieldMap;
-    private SampleEntity sampleEntity;
+    private SimpleEntity sampleEntity;
 
     /**
      * 随机样本
@@ -47,7 +47,7 @@ public class ComplexEntity implements Serializable {
         fieldList = DataBuilder.randomStringList();
 
         fieldMap = DataBuilder.randomMap();
-        setSampleEntity(new SampleEntity());
+        setSampleEntity(new SimpleEntity());
     }
 
     /**
@@ -134,11 +134,11 @@ public class ComplexEntity implements Serializable {
         this.fieldMap = fieldMap;
     }
 
-	public SampleEntity getSampleEntity() {
+	public SimpleEntity getSampleEntity() {
 		return sampleEntity;
 	}
 
-	public void setSampleEntity(SampleEntity sampleEntity) {
+	public void setSampleEntity(SimpleEntity sampleEntity) {
 		this.sampleEntity = sampleEntity;
 	}
 

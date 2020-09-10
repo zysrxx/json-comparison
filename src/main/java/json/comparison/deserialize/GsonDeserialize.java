@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 import json.comparison.JsonDeserialize;
 import json.comparison.entity.ComplexEntity;
-import json.comparison.entity.SampleEntity;
+import json.comparison.entity.SimpleEntity;
 
 /**  
 * @ClassName: GsonDeserialize  
@@ -33,8 +33,8 @@ public class GsonDeserialize implements JsonDeserialize {
 		}
 		Type listType = null;
 		if("list".equals(bigdata)){
-			if(SampleEntity.class == clazz){
-				listType = new TypeToken<List<SampleEntity>>(){}.getType();
+			if(SimpleEntity.class == clazz){
+				listType = new TypeToken<List<SimpleEntity>>(){}.getType();
 			}else{
 				listType = new TypeToken<List<ComplexEntity>>(){}.getType();
 			}
