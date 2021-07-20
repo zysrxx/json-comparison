@@ -34,6 +34,9 @@ public class SimpleEntity implements Serializable {
      * 随机样本
      */
     public SimpleEntity() {
+    }
+
+    public void generateRandomData() {
         Random random = new Random();
 
         fieldBoolean = random.nextBoolean();
