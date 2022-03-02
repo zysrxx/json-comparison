@@ -29,7 +29,9 @@ public class SimpleDataBuilder {
 	* @throws
 	 */
 	public static SimpleEntity getBaseSampleEntity(){
-		return new SimpleEntity();
+		SimpleEntity simpleEntity = new SimpleEntity();
+		simpleEntity.generateRandomContent();
+		return simpleEntity;
 	}
 	/**
 	 * getBaseJson 返回基础json样本数据  
@@ -37,7 +39,9 @@ public class SimpleDataBuilder {
 	 * @throws
 	 */
 	public static JSONObject getBaseJson(){
-		return JSON.parseObject(JSON.toJSONString(new SimpleEntity()));
+		SimpleEntity simpleEntity = new SimpleEntity();
+		simpleEntity.generateRandomContent();
+		return JSON.parseObject(JSON.toJSONString(simpleEntity));
 	}
 	/**
 	 * getBaseJson 返回基础json样本数据list  
@@ -61,7 +65,9 @@ public class SimpleDataBuilder {
 		}
 		List<SimpleEntity> list = new LinkedList<>();
 		for(int i=0;i<size;i++){
-			list.add(new SimpleEntity());
+			SimpleEntity simpleEntity = new SimpleEntity();
+			simpleEntity.generateRandomContent();
+			list.add(simpleEntity);
 		}
 		return list;
 	}
@@ -71,7 +77,9 @@ public class SimpleDataBuilder {
 	* @throws
 	 */
 	public static ComplexEntity getComplexEntity(){
-		return new ComplexEntity();
+		ComplexEntity result = new ComplexEntity();
+		result.generateRandomContent();
+		return result;
 	}
 	/**
 	 * getComplexJson 返回层级嵌套json样本数据 
@@ -79,7 +87,9 @@ public class SimpleDataBuilder {
 	 * @throws
 	 */
 	public static JSONObject getComplexJson(){
-		return JSON.parseObject(JSON.toJSONString(new ComplexEntity()));
+		ComplexEntity complexEntity = new ComplexEntity();
+		complexEntity.generateRandomContent();
+		return JSON.parseObject(JSON.toJSONString(complexEntity));
 	}
 	/**
 	 * getComplexJsonList 返回层级嵌套json样本数据list 
@@ -103,7 +113,9 @@ public class SimpleDataBuilder {
 		}
 		List<ComplexEntity> list = new LinkedList<>();
 		for(int i=0;i<size;i++){
-			list.add(new ComplexEntity());
+			ComplexEntity complexEntity = new ComplexEntity();
+			complexEntity.generateRandomContent();
+			list.add(complexEntity);
 		}
 		return list;
 	}

@@ -4,13 +4,17 @@
 package json.comparison;
 import com.alibaba.fastjson.JSON;
 
+import json.comparison.deserialize.FastJSONReplacementDeserialize;
 import json.comparison.deserialize.FastjsonDeserialize;
 import json.comparison.deserialize.GsonDeserialize;
 import json.comparison.deserialize.JacksonDeserialize;
+import json.comparison.deserialize.JacksonReplaceFastjsonDeserialize;
 import json.comparison.entity.ComplexEntity;
 import json.comparison.entity.SimpleEntity;
+import json.comparison.serialize.FastJSONReplacementSerialize;
 import json.comparison.serialize.FastjsonSerialize;
 import json.comparison.serialize.GsonSerialize;
+import json.comparison.serialize.JacksonReplaceFastjsonSerialize;
 import json.comparison.serialize.JacksonSerialize;
 
 
@@ -49,12 +53,16 @@ public class JsonTest {
 	private  JsonSerialize fastjsonSerialize = new FastjsonSerialize();
 	private  JsonSerialize jacksonSerialize = new JacksonSerialize();
 	private  JsonSerialize gsonSerialize = new GsonSerialize();
+	private  JsonSerialize mySerialize = new FastJSONReplacementSerialize();
+	private  JsonSerialize replaceSerialize = new JacksonReplaceFastjsonSerialize();
 	/**
 	 * 各json反序列化处理类
 	 */
 	private  JsonDeserialize fastjsonDeserialize = new FastjsonDeserialize();
 	private  JsonDeserialize jacksonDeserialize = new JacksonDeserialize();
 	private  JsonDeserialize gsonDeserialize = new GsonDeserialize();
+	private  JsonDeserialize myDeserialize = new FastJSONReplacementDeserialize();
+	private  JsonDeserialize replaceDeserialize = new JacksonReplaceFastjsonDeserialize();
 	public static void main(String[] args) throws Exception {
 		
 		if(args.length < 4){
@@ -75,7 +83,7 @@ public class JsonTest {
 			jsonTest.deserializePreHeat();
 			jsonTest.jsonDeserialize();
 		}
-		
+		System.out.println("===============");
 	}
 	/**
 	 * 
@@ -90,9 +98,11 @@ public class JsonTest {
 		long fastjsonSum = 0;
 		long jacksonSum = 0;
 		long gsonSum = 0;
-		if("list".equals(BIG_DATA)){			
-						
-			if("sample".equals(ENTITY_TYPE)){					
+		long mySum = 0;
+		long replaceSum = 0;
+		if("list".equals(BIG_DATA)){
+
+			if("sample".equals(ENTITY_TYPE)){
 				entity = SimpleDataBuilder.getBaseSampleList(ENTITY_NUM);
 			}else if("complex".equals(ENTITY_TYPE)){
 				entity = SimpleDataBuilder.getComplexList(ENTITY_NUM);
@@ -110,14 +120,24 @@ public class JsonTest {
 			startTime = System.nanoTime();
 			gsonSerialize.serialize(entity);
 			gsonSum += (System.nanoTime()-startTime);
-			
-			System.out.println("serialize,fastsjon,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+fastjsonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("serialize,jackson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+jacksonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("serialize,gson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+gsonSum+",entityNum:"+ENTITY_NUM);
-			
+			startTime = System.nanoTime();
+			mySerialize.serialize(entity);
+			mySum += (System.nanoTime()-startTime);
+			startTime = System.nanoTime();
+			replaceSerialize.serialize(entity);
+			replaceSum += (System.nanoTime()-startTime);
+
+			System.out.println("serialize,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",entityNum:"+ENTITY_NUM);
+			System.out.println("tool\t\t\t\tttime_cost");
+			System.out.printf("%s\t\t\t%d%n", "fastjson"+ENTITY_NUM ,fastjsonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "jackson"+ENTITY_NUM ,jacksonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "gson" +ENTITY_NUM,gsonSum);
+			System.out.printf("%s\t\t%d%n", "FastjsonReplacement" +ENTITY_NUM,mySum);
+			System.out.printf("%s\t\t%d%n", "JacksonReplaceFastjson" +ENTITY_NUM,replaceSum);
+
 		}else{
-			for(int i=0;i< ENTITY_NUM;i++){				
-				if("sample".equals(ENTITY_TYPE)){					
+			for(int i=0;i< ENTITY_NUM;i++){
+				if("sample".equals(ENTITY_TYPE)){
 					entity = SimpleDataBuilder.getBaseSampleEntity();
 				}else if("complex".equals(ENTITY_TYPE)){
 					entity = SimpleDataBuilder.getComplexEntity();
@@ -126,22 +146,33 @@ public class JsonTest {
 				}else {
 					entity = SimpleDataBuilder.getComplexJson();
 				}
-				
+
 				long startTime = System.nanoTime();
 				fastjsonSerialize.serialize(entity);
 				fastjsonSum += (System.nanoTime()-startTime);
-				
+
 				startTime = System.nanoTime();
 				jacksonSerialize.serialize(entity);
 				jacksonSum += (System.nanoTime()-startTime);
-				
+
 				startTime = System.nanoTime();
 				gsonSerialize.serialize(entity);
 				gsonSum += (System.nanoTime()-startTime);
+				startTime = System.nanoTime();
+				mySerialize.serialize(entity);
+				mySum += (System.nanoTime()-startTime);
+				startTime = System.nanoTime();
+				replaceSerialize.serialize(entity);
+				replaceSum += (System.nanoTime()-startTime);
+
 			}
-			System.out.println("serialize,fastsjon,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+fastjsonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("serialize,jackson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+jacksonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("serialize,gson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+gsonSum+",entityNum:"+ENTITY_NUM);
+			System.out.println("serialize,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",entityNum:"+ENTITY_NUM);
+			System.out.println("tool\t\t\t\tttime_cost");
+			System.out.printf("%s\t\t\t%d%n", "fastjson"+ENTITY_NUM ,fastjsonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "jackson"+ENTITY_NUM ,jacksonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "gson" +ENTITY_NUM,gsonSum);
+			System.out.printf("%s\t\t%d%n", "FastjsonReplacement" +ENTITY_NUM,mySum);
+			System.out.printf("%s\t\t%d%n", "JacksonReplaceFastjson" +ENTITY_NUM,replaceSum);
 		}
 	}
 	
@@ -151,7 +182,9 @@ public class JsonTest {
 		long fastjsonSum = 0;
 		long jacksonSum = 0;
 		long gsonSum = 0;
-		if("list".equals(BIG_DATA)){			
+		long mySum = 0;
+		long replaceSum = 0;
+		if("list".equals(BIG_DATA)){
 						
 			if("sample".equals(ENTITY_TYPE)){					
 				entity = SimpleDataBuilder.getBaseSampleList(ENTITY_NUM);
@@ -174,11 +207,21 @@ public class JsonTest {
 			startTime = System.nanoTime();
 			gsonDeserialize.deserialize(json, clazz,BIG_DATA);
 			gsonSum += (System.nanoTime()-startTime);
-			
-			System.out.println("deserialize fastsjon,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+fastjsonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("deserialize jackson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+jacksonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("deserialize gson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+gsonSum+",entityNum:"+ENTITY_NUM);
-			
+			startTime = System.nanoTime();
+			myDeserialize.deserialize(json, clazz,BIG_DATA);
+			mySum += (System.nanoTime()-startTime);
+			startTime = System.nanoTime();
+			replaceDeserialize.deserialize(json, clazz,BIG_DATA);
+			replaceSum += (System.nanoTime()-startTime);
+
+			System.out.println("deserialize entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",entityNum:"+ENTITY_NUM);
+			System.out.println("tool\t\t\t\tttime_cost");
+			System.out.printf("%s\t\t\t%d%n", "fastjson"+ENTITY_NUM ,fastjsonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "jackson"+ENTITY_NUM ,jacksonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "gson" +ENTITY_NUM,gsonSum);
+			System.out.printf("%s\t\t%d%n", "FastjsonReplacement" +ENTITY_NUM,mySum);
+			System.out.printf("%s\t\t%d%n", "JacksonReplaceFastjson" +ENTITY_NUM,replaceSum);
+
 		}else{
 			for(int i=0;i< ENTITY_NUM;i++){				
 				if("sample".equals(ENTITY_TYPE)){					
@@ -196,7 +239,7 @@ public class JsonTest {
 				long startTime = System.nanoTime();
 				fastjsonDeserialize.deserialize(json, clazz,BIG_DATA);
 				fastjsonSum += (System.nanoTime()-startTime);
-				
+
 				startTime = System.nanoTime();
 				jacksonDeserialize.deserialize(json, clazz,BIG_DATA);
 				jacksonSum += (System.nanoTime()-startTime);
@@ -204,11 +247,22 @@ public class JsonTest {
 				startTime = System.nanoTime();
 				gsonDeserialize.deserialize(json, clazz,BIG_DATA);
 				gsonSum += (System.nanoTime()-startTime);
+
+				startTime = System.nanoTime();
+				myDeserialize.deserialize(json, clazz,BIG_DATA);
+				mySum += (System.nanoTime()-startTime);
+
+				startTime = System.nanoTime();
+				replaceDeserialize.deserialize(json, clazz,BIG_DATA);
+				replaceSum += (System.nanoTime()-startTime);
 			}
-			System.out.println("deserialize fastsjon,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+fastjsonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("deserialize jackson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+jacksonSum+",entityNum:"+ENTITY_NUM);
-			System.out.println("deserialize gson,entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",sumTime:"+gsonSum+",entityNum:"+ENTITY_NUM);
-			
+			System.out.println("deserialize entityType:"+ENTITY_TYPE+",bigData:"+BIG_DATA+",entityNum:"+ENTITY_NUM);
+			System.out.println("tool\t\t\t\tttime_cost");
+			System.out.printf("%s\t\t\t%d%n", "fastjson"+ENTITY_NUM ,fastjsonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "jackson"+ENTITY_NUM ,jacksonSum);
+			System.out.printf("%s\t\t\t\t%d%n", "gson" +ENTITY_NUM,gsonSum);
+			System.out.printf("%s\t\t%d%n", "FastjsonReplacement" +ENTITY_NUM,mySum);
+			System.out.printf("%s\t\t%d%n", "JacksonReplaceFastjson" +ENTITY_NUM,replaceSum);
 		}
 	}
 	/**
@@ -229,6 +283,13 @@ public class JsonTest {
 		startTime = System.nanoTime();
 		gsonSerialize.serialize(sample);
 		System.out.println("serialize gson preheat,time:"+(System.nanoTime()-startTime));
+		startTime = System.nanoTime();
+		mySerialize.serialize(sample);
+		System.out.println("serialize FastjsonReplacement preheat,time:"+(System.nanoTime()-startTime));
+
+		startTime = System.nanoTime();
+		replaceSerialize.serialize(sample);
+		System.out.println("serialize JacksonReplaceFastjson preheat,time:"+(System.nanoTime()-startTime));
 	}
 	/**
 	 * 
@@ -249,6 +310,13 @@ public class JsonTest {
 		startTime = System.nanoTime();
 		gsonDeserialize.deserialize(json, SimpleEntity.class,"object");
 		System.out.println("deserialize gson preheat,time:"+(System.nanoTime()-startTime));
+		startTime = System.nanoTime();
+		myDeserialize.deserialize(json, SimpleEntity.class,"object");
+		System.out.println("deserialize FastjsonReplacement preheat,time:"+(System.nanoTime()-startTime));
+
+		startTime = System.nanoTime();
+		replaceDeserialize.deserialize(json, SimpleEntity.class,"object");
+		System.out.println("deserialize JacksonReplaceFastjson preheat,time:"+(System.nanoTime()-startTime));
 
 	}
 	

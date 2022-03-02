@@ -36,6 +36,9 @@ public class ComplexEntity implements Serializable {
      * 随机样本
      */
     public ComplexEntity() {
+    }
+
+    public void generateRandomContent() {
         Random random = new Random();
 
         fieldBoolean = random.nextBoolean();
@@ -47,7 +50,9 @@ public class ComplexEntity implements Serializable {
         fieldList = DataBuilder.randomStringList();
 
         fieldMap = DataBuilder.randomMap();
-        setSampleEntity(new SimpleEntity());
+        SimpleEntity simpleEntity = new SimpleEntity();
+        simpleEntity.generateRandomContent();
+        setSampleEntity(simpleEntity);
     }
 
     /**
